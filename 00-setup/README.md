@@ -4,7 +4,7 @@
 Prevent unexpected Azure charges while building an AZ-104 portfolio.
 
 ## What I configured
-- Monthly budget: 15 EUR
+- Monthly budget: 15 US$
 - Alerts at 50%, 80% and 100%
 - Action group for cost notifications
 - Tagging rules for all resources
