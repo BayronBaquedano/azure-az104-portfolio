@@ -11,8 +11,8 @@ This project documents a small Azure infrastructure for a booking application. T
 
 ## Current status
 - [x] Project structure created
-- [ ] Network deployed
-- [ ] Azure SQL deployed
-- [ ] App Service deployed
-- [ ] Application deployed
-- [ ] Validation completed
+- [x] Network deployed
+- [x] Azure SQL deployed
+- [x] App Service deployed
+- [x] Application deployed
+- [x] Validation completed
