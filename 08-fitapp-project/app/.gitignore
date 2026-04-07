@@ -1,0 +1,33 @@
+# Build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDE folders
+.vs/
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Local secrets and overrides
+appsettings.Local.json
+appsettings.*.local.json
+.env
+
+# ASP.NET Core
+wwwroot/uploads/
+
+# Node
+node_modules/

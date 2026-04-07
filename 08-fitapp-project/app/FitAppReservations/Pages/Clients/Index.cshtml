@@ -1,0 +1,84 @@
+@page
+@model FitAppReservations.Pages.Clients.IndexModel
+@{
+    ViewData["Title"] = "Clients";
+}
+
+<section class="page-header d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-center">
+    <div>
+        <h1 class="mb-1">Clients</h1>
+        <p class="text-muted mb-0">Maintain client contact details and notes for trainers.</p>
+    </div>
+    <a class="btn btn-primary" asp-page="Create">Add client</a>
+</section>
+
+<section class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-8">
+                <label asp-for="Search" class="form-label">Search</label>
+                <input asp-for="Search" class="form-control" placeholder="Search by name, email, or phone" />
+            </div>
+            <div class="col-md-4">
+                <div class="actions-group">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    <a class="btn btn-outline-secondary" asp-page="Index">Clear</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="card shadow-sm">
+    <div class="card-body">
+        @if (Model.Clients.Count == 0)
+        {
+            <div class="empty-state">
+                <h2 class="h5">No clients found</h2>
+                <p class="text-muted mb-4">Create the first client to start making reservations.</p>
+                <a class="btn btn-primary" asp-page="Create">Create client</a>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Full name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Notes</th>
+                            <th>Reservations</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var client in Model.Clients)
+                    {
+                        <tr>
+                            <td>@client.FullName</td>
+                            <td>@(string.IsNullOrWhiteSpace(client.Email) ? "-" : client.Email)</td>
+                            <td>@(string.IsNullOrWhiteSpace(client.Phone) ? "-" : client.Phone)</td>
+                            <td>@(string.IsNullOrWhiteSpace(client.Notes) ? "-" : client.Notes)</td>
+                            <td>@client.ReservationCount</td>
+                            <td class="text-end">
+                                <div class="actions-group justify-content-end">
+                                    <a class="btn btn-sm btn-outline-primary" asp-page="Edit" asp-route-id="@client.Id">Edit</a>
+                                    <form method="post" asp-page-handler="Delete" asp-route-id="@client.Id" class="d-inline">
+                                        <input type="hidden" asp-for="Search" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                onclick="return confirm('Delete this client? This only works when there are no reservations linked to the client.');">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

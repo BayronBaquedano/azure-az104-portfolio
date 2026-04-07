@@ -1,0 +1,52 @@
+@page "{id:int}"
+@model FitAppReservations.Pages.Trainers.EditModel
+@{
+    ViewData["Title"] = "Edit Trainer";
+}
+
+<section class="page-header">
+    <h1 class="mb-1">Edit trainer</h1>
+    <p class="text-muted mb-0">Update trainer details and active booking status.</p>
+</section>
+
+<section class="form-panel">
+    <form method="post" class="row g-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="col-md-6">
+            <label asp-for="Input.FullName" class="form-label"></label>
+            <input asp-for="Input.FullName" class="form-control" />
+            <span asp-validation-for="Input.FullName" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Input.Specialty" class="form-label"></label>
+            <input asp-for="Input.Specialty" class="form-control" />
+            <span asp-validation-for="Input.Specialty" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Input.HourlyRate" class="form-label"></label>
+            <input asp-for="Input.HourlyRate" class="form-control" />
+            <span asp-validation-for="Input.HourlyRate" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 d-flex align-items-center">
+            <div class="form-check mt-4">
+                <input asp-for="Input.IsActive" class="form-check-input" />
+                <label asp-for="Input.IsActive" class="form-check-label"></label>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="actions-group">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                <a class="btn btn-outline-secondary" asp-page="Index">Cancel</a>
+            </div>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

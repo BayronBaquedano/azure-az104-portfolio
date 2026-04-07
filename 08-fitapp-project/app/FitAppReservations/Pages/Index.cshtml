@@ -1,0 +1,120 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<section class="hero-panel mb-4 mb-lg-5">
+    <div class="row g-4 align-items-center">
+        <div class="col-lg-7">
+            <span class="eyebrow">Reservations MVP</span>
+            <h1 class="display-5 fw-bold mb-3">Manage trainers, clients, and bookings in one Azure-ready app.</h1>
+            <p class="lead text-muted mb-4">
+                FitApp Reservations is a streamlined Razor Pages application for managing personal trainer schedules with
+                real business validation, EF Core, and SQL Server compatibility.
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+                <a class="btn btn-primary btn-lg" asp-page="/Reservations/Index">View reservations</a>
+                <a class="btn btn-outline-secondary btn-lg" asp-page="/Trainers/Index">Manage trainers</a>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="stats-grid">
+                <article class="metric-card">
+                    <span class="metric-label">Active trainers</span>
+                    <strong class="metric-value">@Model.ActiveTrainersCount</strong>
+                </article>
+                <article class="metric-card">
+                    <span class="metric-label">Clients</span>
+                    <strong class="metric-value">@Model.ClientsCount</strong>
+                </article>
+                <article class="metric-card">
+                    <span class="metric-label">Upcoming reservations</span>
+                    <strong class="metric-value">@Model.UpcomingReservationsCount</strong>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="row g-4 mb-4 mb-lg-5">
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h2 class="h5">Trainers</h2>
+                <p class="text-muted mb-4">Create, update, and manage availability-ready trainer profiles.</p>
+                <a class="btn btn-outline-primary" asp-page="/Trainers/Index">Open trainers</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h2 class="h5">Clients</h2>
+                <p class="text-muted mb-4">Track contact details and notes for each client relationship.</p>
+                <a class="btn btn-outline-primary" asp-page="/Clients/Index">Open clients</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h2 class="h5">Reservations</h2>
+                <p class="text-muted mb-4">Schedule sessions with overlap validation and status tracking.</p>
+                <a class="btn btn-outline-primary" asp-page="/Reservations/Index">Open reservations</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="card shadow-sm">
+    <div class="card-body">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+            <div>
+                <h2 class="h4 mb-1">Upcoming schedule</h2>
+                <p class="text-muted mb-0">The next non-cancelled reservations currently in the system.</p>
+            </div>
+            <a class="btn btn-primary" asp-page="/Reservations/Create">New reservation</a>
+        </div>
+
+        @if (Model.UpcomingReservations.Count == 0)
+        {
+            <div class="empty-state">
+                <h3 class="h5">No upcoming reservations</h3>
+                <p class="text-muted mb-0">Create the first booking to populate the schedule.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Trainer</th>
+                            <th>Client</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var reservation in Model.UpcomingReservations)
+                    {
+                        <tr>
+                            <td>@reservation.ReservationDate.ToString("dd MMM yyyy")</td>
+                            <td>@reservation.StartTime.ToString("HH\\:mm") - @reservation.EndTime.ToString("HH\\:mm")</td>
+                            <td>@reservation.TrainerName</td>
+                            <td>@reservation.ClientName</td>
+                            <td>
+                                <span class="badge @Model.GetStatusBadgeClass(reservation.Status)">
+                                    @reservation.Status
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

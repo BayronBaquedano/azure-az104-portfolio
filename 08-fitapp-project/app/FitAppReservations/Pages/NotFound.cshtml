@@ -1,0 +1,17 @@
+@page
+@model FitAppReservations.Pages.NotFoundModel
+@{
+    ViewData["Title"] = "Page not found";
+}
+
+<section class="center-panel">
+    <span class="eyebrow">404</span>
+    <h1 class="display-6 fw-bold mb-3">The page you requested could not be found.</h1>
+    <p class="text-muted mb-4">
+        The record may have been deleted, or the URL may be incorrect.
+    </p>
+    <div class="d-flex flex-wrap gap-3">
+        <a class="btn btn-primary" asp-page="/Index">Back to dashboard</a>
+        <a class="btn btn-outline-secondary" asp-page="/Reservations/Index">Reservations</a>
+    </div>
+</section>

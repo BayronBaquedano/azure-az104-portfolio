@@ -1,0 +1,80 @@
+@page
+@model FitAppReservations.Pages.Reservations.CreateModel
+@{
+    ViewData["Title"] = "Create Reservation";
+}
+
+<section class="page-header">
+    <h1 class="mb-1">Create reservation</h1>
+    <p class="text-muted mb-0">Assign a client to a trainer and validate that the slot is available.</p>
+</section>
+
+<section class="form-panel">
+    @if (!Model.CanCreateReservation)
+    {
+        <div class="alert alert-warning">
+            You need at least one active trainer and one client before creating reservations.
+        </div>
+    }
+
+    <form method="post" class="row g-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="col-md-6">
+            <label asp-for="Input.TrainerId" class="form-label"></label>
+            <select asp-for="Input.TrainerId" asp-items="Model.TrainerOptions" class="form-select">
+                <option value="">Select a trainer</option>
+            </select>
+            <span asp-validation-for="Input.TrainerId" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Input.ClientId" class="form-label"></label>
+            <select asp-for="Input.ClientId" asp-items="Model.ClientOptions" class="form-select">
+                <option value="">Select a client</option>
+            </select>
+            <span asp-validation-for="Input.ClientId" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Input.ReservationDate" class="form-label"></label>
+            <input asp-for="Input.ReservationDate" type="date" class="form-control" />
+            <span asp-validation-for="Input.ReservationDate" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Input.StartTime" class="form-label"></label>
+            <input asp-for="Input.StartTime" type="time" class="form-control" />
+            <span asp-validation-for="Input.StartTime" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Input.EndTime" class="form-label"></label>
+            <input asp-for="Input.EndTime" type="time" class="form-control" />
+            <span asp-validation-for="Input.EndTime" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Input.Status" class="form-label"></label>
+            <select asp-for="Input.Status" asp-items="Html.GetEnumSelectList<ReservationStatus>()" class="form-select"></select>
+            <span asp-validation-for="Input.Status" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <label asp-for="Input.Notes" class="form-label"></label>
+            <textarea asp-for="Input.Notes" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Input.Notes" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <div class="actions-group">
+                <button type="submit" class="btn btn-primary" disabled="@(!Model.CanCreateReservation)">Create reservation</button>
+                <a class="btn btn-outline-secondary" asp-page="Index">Cancel</a>
+            </div>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

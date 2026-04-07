@@ -1,0 +1,83 @@
+@{
+    var currentPath = Context.Request.Path.Value ?? string.Empty;
+
+    string NavClass(string path)
+    {
+        if (path == "/")
+        {
+            return currentPath == "/" ? "nav-link active" : "nav-link";
+        }
+
+        return currentPath.StartsWith(path, StringComparison.OrdinalIgnoreCase)
+            ? "nav-link active"
+            : "nav-link";
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FitApp Reservations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/FitAppReservations.styles.css" asp-append-version="true" />
+</head>
+<body class="app-shell">
+    <header class="border-bottom">
+        <nav class="navbar navbar-expand-lg py-3">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-page="/Index">
+                    <span class="brand-mark">F</span>
+                    <span>FitApp Reservations</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="mainNav">
+                    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                        <li class="nav-item">
+                            <a class="@NavClass("/")" asp-page="/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="@NavClass("/Trainers")" asp-page="/Trainers/Index">Trainers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="@NavClass("/Clients")" asp-page="/Clients/Index">Clients</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="@NavClass("/Reservations")" asp-page="/Reservations/Index">Reservations</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="py-4 py-lg-5">
+            @await Html.PartialAsync("_StatusMessage")
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top py-4">
+        <div class="container">
+            <div class="d-flex flex-column flex-lg-row justify-content-between gap-2 text-muted small">
+                <span>&copy; 2026 FitApp Reservations</span>
+                <span>Portfolio-ready Razor Pages app for Azure App Service and Azure SQL.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

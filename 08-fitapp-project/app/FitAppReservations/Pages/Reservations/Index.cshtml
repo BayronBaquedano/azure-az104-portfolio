@@ -1,0 +1,99 @@
+@page
+@model FitAppReservations.Pages.Reservations.IndexModel
+@{
+    ViewData["Title"] = "Reservations";
+}
+
+<section class="page-header d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-center">
+    <div>
+        <h1 class="mb-1">Reservations</h1>
+        <p class="text-muted mb-0">Schedule sessions, validate overlaps, and manage reservation status.</p>
+    </div>
+    <a class="btn btn-primary" asp-page="Create">New reservation</a>
+</section>
+
+<section class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label asp-for="TrainerId" class="form-label">Trainer</label>
+                <select asp-for="TrainerId" asp-items="Model.TrainerOptions" class="form-select">
+                    <option value="">All trainers</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label asp-for="ReservationDate" class="form-label">Date</label>
+                <input asp-for="ReservationDate" type="date" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Status" class="form-label">Status</label>
+                <select asp-for="Status" asp-items="Html.GetEnumSelectList<ReservationStatus>()" class="form-select">
+                    <option value="">All statuses</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <div class="actions-group">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <a class="btn btn-outline-secondary" asp-page="Index">Clear</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="card shadow-sm">
+    <div class="card-body">
+        @if (Model.Reservations.Count == 0)
+        {
+            <div class="empty-state">
+                <h2 class="h5">No reservations found</h2>
+                <p class="text-muted mb-4">Try changing the filters or create a new reservation.</p>
+                <a class="btn btn-primary" asp-page="Create">Create reservation</a>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Trainer</th>
+                            <th>Client</th>
+                            <th>Status</th>
+                            <th>Notes</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var reservation in Model.Reservations)
+                    {
+                        <tr>
+                            <td>@reservation.ReservationDate.ToString("dd MMM yyyy")</td>
+                            <td>@reservation.StartTime.ToString("HH\\:mm") - @reservation.EndTime.ToString("HH\\:mm")</td>
+                            <td>@reservation.TrainerName</td>
+                            <td>@reservation.ClientName</td>
+                            <td>
+                                <span class="badge @Model.GetStatusBadgeClass(reservation.Status)">@reservation.Status</span>
+                            </td>
+                            <td>@(string.IsNullOrWhiteSpace(reservation.Notes) ? "-" : reservation.Notes)</td>
+                            <td class="text-end">
+                                <div class="actions-group justify-content-end">
+                                    <a class="btn btn-sm btn-outline-primary" asp-page="Edit" asp-route-id="@reservation.Id">Edit</a>
+                                    <form method="post" asp-page-handler="Delete" asp-route-id="@reservation.Id" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                onclick="return confirm('Delete this reservation permanently?');">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

@@ -1,0 +1,26 @@
+@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Something went wrong";
+}
+
+<section class="center-panel">
+    <span class="eyebrow">Error</span>
+    <h1 class="display-6 fw-bold mb-3">Something went wrong while processing your request.</h1>
+    <p class="text-muted mb-4">
+        The issue has been captured by the application logs. Try again, or review the Azure App Service logs if the
+        problem continues.
+    </p>
+
+    @if (Model.ShowRequestId)
+    {
+        <p class="text-muted mb-4">
+            <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        </p>
+    }
+
+    <div class="d-flex flex-wrap gap-3">
+        <a class="btn btn-primary" asp-page="/Index">Back to dashboard</a>
+        <a class="btn btn-outline-secondary" asp-page="/Reservations/Index">View reservations</a>
+    </div>
+</section>
