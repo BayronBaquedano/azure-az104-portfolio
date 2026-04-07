@@ -230,3 +230,35 @@ Enable real-time monitoring, request tracking, traces, and failure visibility di
 
 - Result:
   The application started sending telemetry to Application Insights.
+
+
+  ### Issues encountered during deployment
+
+- The application returned HTTP 500.30 after deployment to Azure App Service.
+- No logs were initially available using log stream.
+- Application Insights was created but not collecting data.
+- The application failed silently due to misconfiguration.
+
+### Troubleshooting steps
+
+- Enabled stdout logging in `web.config` to capture startup errors.
+- Accessed Kudu console to inspect application logs:
+  - Navigated to `/LogFiles/stdout`
+- Identified runtime errors directly from log files.
+- Verified and corrected:
+  - SQL connection string configuration
+  - Duplicate or conflicting settings in `appsettings.json`
+  - Application Insights integration (missing SDK initialization)
+
+### Fix applied
+
+- Corrected connection string in App Service configuration.
+- Enabled Application Insights in `Program.cs`.
+- Adjusted logging path to ensure logs were generated.
+- Restarted App Service after configuration changes.
+
+### Result
+
+- Application started successfully.
+- Logs became accessible.
+- Application Insights began collecting telemetry.

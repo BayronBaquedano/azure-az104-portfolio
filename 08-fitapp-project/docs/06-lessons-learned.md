@@ -110,3 +110,17 @@ Several deployment issues were caused not by Azure services themselves, but by o
 
 Lesson:
 A large part of cloud engineering is not only architecture, but execution discipline.
+
+## Debugging is more important than deployment
+
+Deploying resources is only part of the process.
+
+The most valuable learning came from diagnosing failures:
+
+- HTTP 500 errors do not provide enough information alone
+- Kudu logs are critical to understand what is happening inside App Service
+- Logging must be explicitly enabled to troubleshoot startup issues
+- Misconfigurations (especially connection strings) are a common source of failure
+- Monitoring tools like Application Insights are useless if not properly integrated in the application
+
+Understanding how to debug cloud applications is essential for real-world scenarios.
